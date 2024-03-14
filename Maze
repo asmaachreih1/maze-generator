@@ -28,4 +28,32 @@ bool isValidCell(int x, int y){
 return x >= 0 && x < width &&  >= 0 && y < height;
 }
 
-void
+void printMaze(){
+for(int y = 0; y < height; ++y){
+  for(int x = 0; x < width; ++x){
+     std::cout <<grid[y][x];
+}
+std::cout<<std::endl;
+}
+}
+};
+int main(){
+int w = 10;
+int h = 5;
+
+Maze uno(w, h);
+uno.setPass(1,1);
+uno.setPass(2,1);
+uno.setPass(3,1);
+uno.setPass(4,1);
+
+uno.setObstacle(2,2);
+uno.setObstacle(3,2);
+
+uno.printMaze();
+
+return 0;
+}
+
+
+
