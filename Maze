@@ -3,7 +3,7 @@
 
 class Maze{
 private:
- std::vector<<std::vector<char>> grid;
+ std::vector<std::vector<char>> grid;
 int width;
 int height;
 
@@ -14,7 +14,7 @@ grid.assign(height, std::vector<char>(width,'#'));
 
 void setPass(int x, int y){
 if(isValidCell(x,y)){
-grid[y][x] = '';
+grid[y][x] = ' ';
 }
 }
 
@@ -25,7 +25,7 @@ grid[y][x] = '#';
 }
 
 bool isValidCell(int x, int y){
-return x >= 0 && x < width &&  >= 0 && y < height;
+return x >= 0 && x < width && y >= 0 && y < height;
 }
 
 void printMaze(){
