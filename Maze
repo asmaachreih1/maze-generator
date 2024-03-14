@@ -1,3 +1,31 @@
-y6y66  y664
-jbfjhbfdhj
-gg
+#include <vector> 
+#include <iostream>
+
+class Maze{
+private:
+ std::vector<<std::vector<char>> grid;
+int width;
+int height;
+
+public:
+ Maze(int w, int h):width(w), height(h){
+grid.assign(height, std::vector<char>(width,'#'));
+}
+
+void setPass(int x, int y){
+if(isValidCell(x,y)){
+grid[y][x] = '';
+}
+}
+
+void setObstacle(int x, int y){
+if(isValidCell(x,y)){
+grid[y][x] = '#';
+}
+}
+
+bool isValidCell(int x, int y){
+return x >= 0 && x < width &&  >= 0 && y < height;
+}
+
+void
