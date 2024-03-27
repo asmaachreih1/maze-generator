@@ -4,13 +4,23 @@
 class Maze{
 private:
  std::vector<std::vector<char>> grid;
+ std::vector<std::pair<int,int>> walls; 
 int width;
 int height;
 
 public:
- Maze(int w, int h):width(w), height(h){
+Maze(int w, int h):width(w), height(h){
 grid.assign(height, std::vector<char>(width,'#'));
+int startX = gen() % width;
+int startY = gen() % height;
+setPass(startX,startY);
+addWalls(startX,startY);
 }
+void addWalls(int x, int y) {
+if(isValidCell(x-1,y) && grid[y][x-1] == '#') walls.emplace_back(x-1,y);
+if(isValidCell(x+1,y) && grid[y][x+1] == '#') walls.emplace_back(x+1,y);
+if(isValidCell(x,y-1) && grid[y-1][x] == '#') walls.emplace_back(x,y-1);
+if(isValidCell(x,y+1) && grid[y + 1][x] == '#') walls.emplace_back(x,y+1); }
 
 void setPass(int x, int y){
 if(isValidCell(x,y)){
