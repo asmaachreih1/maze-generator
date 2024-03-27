@@ -14,9 +14,14 @@ std::mt19937 gen;
 
 public:
 Maze(int w, int h):width(w), height(h), gen(rd()){
+initialize(); }
+void initialize(){
 grid.assign(height, std::vector<char>(width,'#'));
-int startX = gen() % width;
-int startY = gen() % height;
+walls.clear();
+std::uniform_int_distribution<> distrX(0, width - 1);
+std::uniform_int_distribution<> distrY(0, height - 1);
+int startX = distrX(gen);
+int startY = distrY(gen);
 setPass(startX,startY);
 addWalls(startX,startY);
 }
@@ -50,10 +55,18 @@ for(int y = 0; y < height; ++y){
 std::cout<<std::endl;
 }
 }
+void resizeMaze(int newWidth, int newHeight){
+width = newWidth;
+height = newHeight;
+initializeMaze();
+}
 };
 int main(){
-int w = 10;
-int h = 5;
+int w, h;
+std::cout << "Enter the width of the maze:";
+std::cin >> w;
+std::cout << "Enter the height of the maze:";
+std::cin >> h;
 
 Maze uno(w, h);
 uno.setPass(1,1);
