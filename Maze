@@ -11,7 +11,7 @@ int width;
 int height;
 
 public:
-Maze(int w, int h):width(w), height(h){
+Maze(int w, int h):width(w), height(h), gen(rd()){
 grid.assign(height, std::vector<char>(width,'#'));
 int startX = gen() % width;
 int startY = gen() % height;
