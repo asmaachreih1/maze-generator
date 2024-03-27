@@ -9,6 +9,8 @@ private:
  std::vector<std::pair<int,int>> walls; 
 int width;
 int height;
+std::random_device rd;
+std::mt19937 gen;
 
 public:
 Maze(int w, int h):width(w), height(h), gen(rd()){
