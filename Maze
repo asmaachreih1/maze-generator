@@ -58,7 +58,7 @@ std::cout<<std::endl;
 void resizeMaze(int newWidth, int newHeight){
 width = newWidth;
 height = newHeight;
-initializeMaze();
+initialize();
 }
 };
 int main(){
