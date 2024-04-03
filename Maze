@@ -48,18 +48,6 @@ if(isValidCell(x+1,y) && grid[y][x+1] == '#') walls.emplace_back(x+1,y);
 if(isValidCell(x,y-1) && grid[y-1][x] == '#') walls.emplace_back(x,y-1);
 if(isValidCell(x,y+1) && grid[y + 1][x] == '#') walls.emplace_back(x,y+1); }
 
-void setPass(int x, int y){
-if(x>=0&&x<width&&y>=0&&y<height){
-grid[y][x] = ' ';
-}
-}
-
-void setObstacle(int x, int y){
-if(isValidCell(x,y)){
-grid[y][x] = '#';
-}
-}
-
 bool isValidWall(int x, int y){
 int paths =0;
 if(x>0&&grid[y][x-1]==' ')paths++;
@@ -68,6 +56,11 @@ if(y>0&&grid[y-1][x]==' ')paths++;
 if(y<height -1&&grid[y+1][x]==' ')paths++;
 return paths==1;}
 
+void setPass(int x, int y){
+if(x>=0&&x<width&&y>=0&&y<height){
+grid[y][x] = ' ';
+}
+}
 }
 
 void printMaze(){
@@ -78,11 +71,7 @@ for(int y = 0; y < height; ++y){
 std::cout<<std::endl;
 }
 }
-void resizeMaze(int newWidth, int newHeight){
-width = newWidth;
-height = newHeight;
-initialize();
-}
+
 };
 int main(){
 int w, h;
@@ -90,19 +79,10 @@ std::cout << "Enter the width of the maze:";
 std::cin >> w;
 std::cout << "Enter the height of the maze:";
 std::cin >> h;
-
-Maze uno(w, h);
-uno.setPass(1,1);
-uno.setPass(2,1);
-uno.setPass(3,1);
-uno.setPass(4,1);
-
-uno.setObstacle(2,2);
-uno.setObstacle(3,2);
-
-uno.printMaze();
-
+Maze maze(w,h);
+maze.printMaze();
 return 0;
+
 }
 
 
