@@ -32,7 +32,7 @@ while(!wall.empty()){
 std::uniform_int_distribution<>distr(0,walls.size()-1);
 int wallIndex=distr(gen);
 auto[wallX,wallY]=walls[wallIndex];
-if(isValidwall(wallX,wallY)){
+if(isValidWall(wallX,wallY)){
 setPass(wallX,wallY);
 addWalls(wallX,wallY);
 }
@@ -42,11 +42,6 @@ end={width-2,height-1};
 grid[start.second][start.first]='S';
 grid[end.second][end.first]='E';
 }
-void addWalls(int x, int y) {
-if(isValidCell(x-1,y) && grid[y][x-1] == '#') walls.emplace_back(x-1,y);
-if(isValidCell(x+1,y) && grid[y][x+1] == '#') walls.emplace_back(x+1,y);
-if(isValidCell(x,y-1) && grid[y-1][x] == '#') walls.emplace_back(x,y-1);
-if(isValidCell(x,y+1) && grid[y + 1][x] == '#') walls.emplace_back(x,y+1); }
 
 bool isValidWall(int x, int y){
 int paths =0;
