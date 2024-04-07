@@ -25,7 +25,7 @@ public:
     bool operator()(const Node* lhs, const Node* rhs) const {
         return lhs->getScore() > rhs->getScore();
     }
-};
+   };
 
 class Maze{
 private:
@@ -46,7 +46,7 @@ public:
         }
         grid.clear();
         walls.clear();
-    }
+      }
     void initialize(){
         grid.assign(height, std::vector<char>(width, '1')); 
 
@@ -66,7 +66,7 @@ public:
                 addWalls(wallX, wallY);
             }
             walls.erase(walls.begin() + wallIndex);
-        }
+         }
         start = {1, 0};
         end = {width - 2, height - 1};
         grid[start.second][start.first] = 'S'; // Start
@@ -90,7 +90,7 @@ public:
         if (x >= 0 && x < width && y >= 0 && y < height) {
             grid[y][x] = '0';
         }
-    }
+      }
 
     std::vector<std::pair<int, int>> findPathAStar(){
         std::priority_queue<Node*, std::vector<Node*>, NodeComparer> openList;
@@ -117,7 +117,7 @@ public:
                 }
                 pathFound = true;
                 break;
-            }
+             }
 
             closedSet.insert(currentIndex);
 
@@ -145,8 +145,8 @@ public:
                         allNodes[neighborIndex]->G = tentative_gScore;
                     }
                 }
-            }
-        }
+                }
+          }
 
         if (pathFound){
             std::reverse(path.begin(), path.end());
@@ -159,7 +159,7 @@ public:
         }
         delete endNode;
         return path;
-    }
+     }
 
     void printMaze(){
         for (int y = 0; y < height; ++y) {
@@ -174,8 +174,8 @@ public:
                 std::cout << ' ';
             }
             std::cout << std::endl;
-        }
-    }
+         }
+      }
 
     void printPath(const std::vector<std::pair<int, int>>& path){
         std::vector<std::vector<char>> mazeCopy = grid;
@@ -190,7 +190,7 @@ public:
                 std::cout << mazeCopy[y][x] << ' ';
             }
             std::cout << std::endl;
-        }
+          }
     }
     int heuristic(int x, int y) {
         return std::sqrt((x - end.first) * (x - end.first) + (y - end.second) * (y - end.second));
