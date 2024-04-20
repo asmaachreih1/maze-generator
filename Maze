@@ -8,6 +8,9 @@
 #include <unordered_map>
 #include <cmath>
 #include <limits>
+#include <SFML/Graphics.hpp>
+
+
 
 class Node {
 public:
@@ -25,7 +28,7 @@ public:
     bool operator()(const Node* lhs, const Node* rhs) const {
         return lhs->getScore() > rhs->getScore();
     }
-   };
+};
 
 class Maze{
 private:
@@ -46,7 +49,7 @@ public:
         }
         grid.clear();
         walls.clear();
-      }
+    }
     void initialize(){
         grid.assign(height, std::vector<char>(width, '1')); 
 
@@ -66,11 +69,11 @@ public:
                 addWalls(wallX, wallY);
             }
             walls.erase(walls.begin() + wallIndex);
-         }
+        }
         start = {1, 0};
         end = {width - 2, height - 1};
-        grid[start.second][start.first] = 'S'; 
-        grid[end.second][end.first] = 'E'; 
+        grid[start.second][start.first] = 'S'; // Start
+        grid[end.second][end.first] = 'E'; // End
     }
     void addWalls(int x, int y){
         if (x > 1 && grid[y][x - 2] == '1' && grid[y][x - 1] == '1') walls.emplace_back(x - 1, y);
@@ -90,7 +93,7 @@ public:
         if (x >= 0 && x < width && y >= 0 && y < height) {
             grid[y][x] = '0';
         }
-      }
+    }
 
     std::vector<std::pair<int, int>> findPathAStar(){
         std::priority_queue<Node*, std::vector<Node*>, NodeComparer> openList;
@@ -117,7 +120,7 @@ public:
                 }
                 pathFound = true;
                 break;
-             }
+            }
 
             closedSet.insert(currentIndex);
 
@@ -145,8 +148,8 @@ public:
                         allNodes[neighborIndex]->G = tentative_gScore;
                     }
                 }
-                }
-          }
+            }
+        }
 
         if (pathFound){
             std::reverse(path.begin(), path.end());
@@ -159,7 +162,7 @@ public:
         }
         delete endNode;
         return path;
-     }
+    }
 
     void printMaze(){
         for (int y = 0; y < height; ++y) {
@@ -174,8 +177,8 @@ public:
                 std::cout << ' ';
             }
             std::cout << std::endl;
-         }
-      }
+        }
+    }
 
     void printPath(const std::vector<std::pair<int, int>>& path){
         std::vector<std::vector<char>> mazeCopy = grid;
@@ -190,11 +193,31 @@ public:
                 std::cout << mazeCopy[y][x] << ' ';
             }
             std::cout << std::endl;
-          }
+        }
     }
     int heuristic(int x, int y) {
         return std::sqrt((x - end.first) * (x - end.first) + (y - end.second) * (y - end.second));
     }
+    void draw(sf::RenderWindow &window) {
+    sf::RectangleShape cell(sf::Vector2f(20, 20)); 
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            if (grid[y][x] == '1') {
+                cell.setFillColor(sf::Color::Black);
+            } else if (grid[y][x] == '0' || grid[y][x] == '.') {
+                cell.setFillColor(sf::Color::White);
+            }
+            if (grid[y][x] == 'S') {
+                cell.setFillColor(sf::Color::Green);
+            }
+            if (grid[y][x] == 'E') {
+                cell.setFillColor(sf::Color::Red);
+            }
+            cell.setPosition(x * 20, y * 20);
+            window.draw(cell);
+        }
+    }
+}
 };
 
 int main(){
@@ -204,10 +227,19 @@ int main(){
     std::cout << "Enter the height of the maze: ";
     std::cin >> h;
     Maze maze(w, h);
-    std::cout << "Generated Maze:" << std::endl;
-    maze.printMaze();
     auto path = maze.findPathAStar();
-    std::cout << "Path from Start (0) to End (0):" << std::endl;
-    maze.printPath(path);
+
+    sf::RenderWindow window(sf::VideoMode(w * 20, h * 20), "Maze Visualizer");
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        window.clear();
+        maze.printPath(path);  
+        maze.draw(window);
+        window.display();
+    }
     return 0;
 }
